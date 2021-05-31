@@ -37,7 +37,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RoomOptions roomOptions = new RoomOptions()
         {
             MaxPlayers = 2,
-            EmptyRoomTtl = 1,
+            EmptyRoomTtl = 1
         };
         PhotonNetwork.CreateRoom(name, roomOptions);
     }
@@ -62,6 +62,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
+        PhotonNetwork.LocalPlayer.NickName = $"Player {PhotonNetwork.CurrentRoom.PlayerCount}";
         OnJoinedLobby?.Invoke(PhotonNetwork.CurrentRoom);
     }
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
@@ -56,7 +57,11 @@ public class MenuController : MonoBehaviour
 
     public void ExitGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     public void LeaveLobby()
@@ -83,7 +88,7 @@ public class MenuController : MonoBehaviour
         {
             LobbyNameInputField.onEndEdit.AddListener((string _) =>
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                if (Keyboard.current.enterKey.isPressed || Keyboard.current.numpadEnterKey.isPressed)
                 {
                     CreateLobby(LobbyNameInputField);
                     ShowMenu(LobbyMenu);
