@@ -11,8 +11,8 @@ public class PlayerCustomProperty
 
 public class Player : MonoBehaviourPunCallbacks
 {
-    public Material[] BugColors;
-    private readonly Color[] _bugLineColors = new Color[] {
+    public Material[] Colors;
+    private readonly Color[] _lineColors = new Color[] {
         new Color(0xC9 / 255f, 0x01 / 255f, 0x01 / 255f, 1),
         new Color(0xCC / 255f, 0xC8 / 255f, 0x00 / 255f, 1),
         new Color(0xCD / 255f, 0x02 / 255f, 0xB9 / 255f, 1),
@@ -71,8 +71,8 @@ public class Player : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetPlayerColorIndex(int colorIndex)
     {
-        GetComponentInChildren<MeshRenderer>().material = BugColors[colorIndex];
-        _lineRenderer.startColor = _lineRenderer.endColor = _bugLineColors[colorIndex];
+        GetComponentInChildren<MeshRenderer>().material = Colors[colorIndex];
+        _lineRenderer.startColor = _lineRenderer.endColor = _lineColors[colorIndex];
     }
 
     [PunRPC]

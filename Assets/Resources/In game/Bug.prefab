@@ -583,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 437a923d85bca2b46a842e3b9420463c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BugColors:
+  Colors:
   - {fileID: 2100000, guid: 076559241cb26c3488be32d95b018819, type: 2}
   - {fileID: 2100000, guid: c1ce451b57a2aeb489b63f040092a71c, type: 2}
   - {fileID: 2100000, guid: cb664d45a8ac2db4d936731a4d108cb5, type: 2}

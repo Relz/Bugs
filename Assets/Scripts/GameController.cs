@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviourPunCallbacks
 {
-    public Material[] BugColors;
+    public Material[] PlayerColors;
     public GameObject ImageTarget;
     public GameObject Plate;
     public GameObject Timer;
@@ -31,9 +31,9 @@ public class GameController : MonoBehaviourPunCallbacks
     private const int _goodTimeLimit = 60;
     private const int _normalTimeLimit = 90;
 
-    private readonly Color _timerGoodColor = new Color(0x00 / 255f, 0x95 / 255f, 0x27 / 255f, 1);
-    private readonly Color _timerNormalColor = new Color(0xAE / 255f, 0x7D / 255f, 0x00 / 255f, 1);
-    private readonly Color _timerBadColor = new Color(0xDC / 255f, 0x27 / 255f, 0x29 / 255f, 1);
+    private readonly Color _timerGoodColor = new Color32(0, 149, 39, 255);
+    private readonly Color _timerNormalColor = new Color32(174, 125, 0, 255);
+    private readonly Color _timerBadColor = new Color32(220, 39, 41, 255);
 
 
     public void Awake()
@@ -56,7 +56,7 @@ public class GameController : MonoBehaviourPunCallbacks
     {
         GameObject gameObject = PhotonNetwork.Instantiate(Path.Combine("In game", "Bug"), GeneratePosition(), Quaternion.identity, 0);
 
-        int playerColorIndex = playerIndex % BugColors.Length;
+        int playerColorIndex = playerIndex % PlayerColors.Length;
 
         PhotonView photonView = gameObject.GetComponent<PhotonView>();
         photonView.RPC("SetPlayerColorIndex", RpcTarget.All, (object)playerColorIndex);
