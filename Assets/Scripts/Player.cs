@@ -102,6 +102,7 @@ public class Player : MonoBehaviourPunCallbacks
             renderer.enabled = value;
         }
         Model.GetComponent<Rigidbody>().isKinematic = !value;
+        Model.transform.position = new Vector3(Model.transform.position.x, _plateCenter.y + 0.01f, Model.transform.position.z);
     }
 
     private bool GetPlayerTargetFound(Photon.Realtime.Player player)

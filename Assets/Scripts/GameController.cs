@@ -178,7 +178,7 @@ public class GameController : MonoBehaviourPunCallbacks
         Vector2 randomCirclePoint = UnityEngine.Random.insideUnitCircle * (0.8f * _plateRadius);
         return new Vector3(
             randomCirclePoint.x,
-            Plate.transform.position.y + 0.1f,
+            Plate.transform.position.y + 0.01f,
             randomCirclePoint.y
         );
     }
