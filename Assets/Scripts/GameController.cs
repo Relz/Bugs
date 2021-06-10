@@ -231,9 +231,9 @@ public class GameController : MonoBehaviourPunCallbacks
 
     private string GetCongratulationMessage()
     {
-        return _secondsPassed < _goodTimeLimit
+        return _integerSecondsPassed < _goodTimeLimit
             ? "Отлично!"
-            : _secondsPassed < _normalTimeLimit
+            : _integerSecondsPassed < _normalTimeLimit
                 ? "Хорошо!"
                 : "Неплохо!";
     }
