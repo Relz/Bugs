@@ -62,7 +62,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.LocalPlayer.NickName = $"Player {PhotonNetwork.CurrentRoom.PlayerCount}";
         OnJoinedLobby?.Invoke(PhotonNetwork.CurrentRoom);
     }
 
@@ -70,6 +69,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(otherPlayer);
         OnPlayerLeftLobby?.Invoke(PhotonNetwork.CurrentRoom);
+    }
+
+    public void SetNickName(string nickName)
+    {
+        PhotonNetwork.LocalPlayer.NickName = nickName;
     }
 
     public void StartGame()

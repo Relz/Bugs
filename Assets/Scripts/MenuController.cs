@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
 
     public LobbyManager LobbyManager;
 
+    public InputField NickNameInputField;
     public InputField LobbyNameInputField;
     public Button CreateLobbyButton;
 
@@ -44,6 +45,7 @@ public class MenuController : MonoBehaviour
         LobbyManager.OnPlayerJoinedLobby = OnPlayerJoinedLobby;
         LobbyManager.OnPlayerLeftLobby = OnPlayerLeftLobby;
         LobbyManager.Initialize();
+        OnNickNameInputChanged();
     }
 
     public void ShowMenu(GameObject menuToShow)
@@ -72,6 +74,15 @@ public class MenuController : MonoBehaviour
         startGameButtonText.color = DISABLED_BUTTON_COLOR;
         StartGameButton.interactable = false;
         StartGameButton.gameObject.SetActive(false);
+    }
+
+    public void OnNickNameInputChanged()
+    {
+        string nickName = NickNameInputField.text.Length == 0
+            ? $"Анонимный жук {Random.Range(0, 10000).ToString().PadLeft(5, '0')}"
+            : NickNameInputField.text;
+
+        LobbyManager.SetNickName(nickName);
     }
 
     public void OnLobbyNameInputChanged()

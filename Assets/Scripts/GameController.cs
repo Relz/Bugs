@@ -6,6 +6,8 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Firebase.Firestore;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviourPunCallbacks
 {
@@ -227,15 +229,60 @@ public class GameController : MonoBehaviourPunCallbacks
         StopCoroutine(WaitUntilBalanced());
         _balancedSeconds = 0;
         _photonView.RPC("Win", RpcTarget.All);
+        SaveScores();
+    }
+
+    private void SaveScores()
+    {
+        DateTime now = DateTime.Now;
+        string gameSessionId = Guid.NewGuid().ToString();
+
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            Firebase.DependencyStatus dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available)
+            {
+                Firebase.FirebaseApp firebaseApp;
+                firebaseApp = Firebase.FirebaseApp.DefaultInstance;
+                FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+                CollectionReference collectionRef = db.Collection("scores");
+                foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+                {
+                    Dictionary<string, object> score = new Dictionary<string, object>
+                {
+                    { "score", GetScore() },
+                    { "nickName", player.NickName },
+                    { "gameId", "Bugs" },
+                    { "gameSessionId", gameSessionId },
+                    { "dateTime", Timestamp.FromDateTime(now) },
+                };
+                    collectionRef.AddAsync(score);
+                }
+            }
+            else
+            {
+                Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
+            }
+        });
     }
 
     private string GetCongratulationMessage()
     {
-        return _integerSecondsPassed < _goodTimeLimit
+        int score = GetScore();
+        return score == 3
             ? "Отлично!"
-            : _integerSecondsPassed < _normalTimeLimit
+            : score == 2
                 ? "Хорошо!"
                 : "Неплохо!";
+    }
+
+    private int GetScore()
+    {
+        return _integerSecondsPassed < _goodTimeLimit
+            ? 3
+            : _integerSecondsPassed < _normalTimeLimit
+                ? 2
+                : 1;
     }
 
     private string FormatSecondsPassed(int secondsPassed)
